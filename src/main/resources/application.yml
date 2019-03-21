@@ -1,0 +1,47 @@
+server:
+  port: 9090
+spring:
+  application:
+    name: spring-security
+  datasource:
+    name: test
+    url: jdbc:mysql://47.106.208.123:3306/test_role?useUnicode=true&characterEncoding=UTF-8
+    username: aaa
+    password:  aaa
+    # 使用druid数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    filters: stat
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+  # 格式化时间
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+mybatis:
+  mapper-locations: classpath:mybatis/mappers/**/*.xml
+  type-aliases-package: com.galen.security.pojo
+
+#pagehelper分页插件
+pagehelper:
+  helperDialect: mysql
+  reasonable: false #禁用合理化,pageNum>pages会返回空数据
+  supportMethodsArguments: true
+  params: count=countSql
+#日志输出配置
+logging:
+  level:
+    root: INFO
+    org.springframework: INFO
+    com.galen.security.mapper: DEBUG
