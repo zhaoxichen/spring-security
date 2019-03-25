@@ -19,8 +19,8 @@ public interface SysPermissionMapper {
 
     int updateByPrimaryKey(SysPermission record);
 
-    public List<SysPermission> findAll();
+    List<SysPermission> findAll();
 
-    public List<SysPermission> findByAdminUserId(Long userId);
+    List<SysPermission> findByAdminUserId(Long userId);
 
 }

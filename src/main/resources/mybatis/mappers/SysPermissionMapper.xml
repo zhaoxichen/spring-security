@@ -103,13 +103,13 @@
         SELECT * from sys_permission ;
     </select>
 
-    <select id="findByAdminUserId" parameterType="int" resultType="com.galen.security.model.SysPermission">
+    <select id="findByAdminUserId" parameterType="java.lang.Long" resultType="com.galen.security.model.SysPermission">
         select p.*
         from sys_user u
-        LEFT JOIN sys_role_users sru on u.id= sru.sys_user_id
-        LEFT JOIN sys_role r on sru.sys_role_id=r.id
-        LEFT JOIN sys_permission_role spr on spr.role_id=r.id
-        LEFT JOIN sys_permission p on p.id =spr.permission_id
+        LEFT JOIN sys_role_users sru on u.id= sru.user_id
+        LEFT JOIN sys_role r on sru.role_id=r.id
+        LEFT JOIN sys_role_permission srp on srp.role_id=r.id
+        LEFT JOIN sys_permission p on p.id =srp.permission_id
         where u.id=#{userId}
     </select>
 

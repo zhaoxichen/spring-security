@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 /**
  * @Author: Galen
@@ -43,7 +44,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         //        // http.authorizeRequests()每个匹配器按照它们被声明的顺序被考虑。
         http
                 .authorizeRequests()
-                // 所有用户均可访问的资源
+                // 给 swagger 放行；不需要权限能访问的资源
+                .antMatchers("/swagger-ui.html", "/swagger-resources/**", "/images/**", "/webjars/**", "/v2/api-docs", "/configuration/ui", "/configuration/security").permitAll()
+                // 给 静态资源放行；不需要权限能访问的资源
                 .antMatchers("/css/**", "/js/**", "/images/**", "/webjars/**", "**/favicon.ico").permitAll()
                 // ROLE_USER的权限才能访问的资源
                 .antMatchers("/user/**").hasRole("USER")
@@ -54,7 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 指定登录页面,授予所有用户访问登录页面
                 .loginPage("/login")
                 //设置默认登录成功跳转页面,错误回到login界面
-                .defaultSuccessUrl("/index").failureUrl("/login?error").permitAll()
+                .defaultSuccessUrl("/permission").failureUrl("/login?error").permitAll()
                 .and()
                 //开启cookie保存用户数据
                 .rememberMe()
@@ -73,5 +76,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //springsecurity4自动开启csrf(跨站请求伪造)与restful冲突
                 .csrf().disable();
     }
+
 }
 

@@ -9,6 +9,8 @@ import com.galen.security.utils.IdUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PermissionServiceImpl implements PermissionService {
     @Autowired
@@ -31,5 +33,10 @@ public class PermissionServiceImpl implements PermissionService {
         sysRolePermission.setPermissionId(permissionId);
         sysRolePermissionMapper.insertSelective(sysRolePermission);
         return "success";
+    }
+
+    @Override
+    public List<SysPermission> getList() {
+        return sysPermissionMapper.findAll();
     }
 }

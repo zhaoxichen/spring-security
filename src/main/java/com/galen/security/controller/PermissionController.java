@@ -5,9 +5,12 @@ import com.galen.security.service.PermissionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @Api(value = "权限controller", tags = {"权限操作接口"})
 @RestController
@@ -29,5 +32,11 @@ public class PermissionController {
             return "error";
         }
         return permissionService.addToPermission(roleId, permissionId);
+    }
+
+    @ApiOperation("查看权限列表")
+    @GetMapping("list")
+    public List<SysPermission> getList(String username, String password) {
+        return permissionService.getList();
     }
 }
