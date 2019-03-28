@@ -3,12 +3,9 @@ package com.galen.security.model;
 import java.io.Serializable;
 
 /**
- * 角色表
- *
- * @author wcyong
- * @date 2019-03-21
+ * Created by sang on 2017/12/28.
  */
-public class SysRole implements Serializable {
+public class Role implements Serializable {
     private Long id;
     private String name;
     private String nameZh;

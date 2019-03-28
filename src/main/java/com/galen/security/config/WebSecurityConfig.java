@@ -1,81 +1,99 @@
 package com.galen.security.config;
 
-import com.galen.security.interceptor.MyFilterSecurityInterceptor;
-import com.galen.security.service.impl.UserServiceImpl;
+import com.galen.security.interceptor.MyAccessDecisionManager;
+import com.galen.security.interceptor.handler.MyAccessDeniedHandler;
+import com.galen.security.interceptor.MyFilterInvocationSecurityMetadataSource;
+import com.galen.security.interceptor.handler.MyAuthenticationFailureHandler;
+import com.galen.security.interceptor.handler.MyAuthenticationSuccessHandler;
+import com.galen.security.interceptor.handler.MyLogoutSuccessHandler;
+import com.galen.security.service.HrService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 /**
  * @Author: Galen
- * @Date: 2019/3/22-10:12
- * @Description: spring-security 配置
+ * @Date: 2019/3/27-14:43
+ * @Description: spring-security权限管理的核心配置
+ * 自定义一个springSecurity安全框架的配置类 继承WebSecurityConfigurerAdapter，重写其中的方法configure
  **/
 @Configuration
-@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true) //全局
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    private MyFilterSecurityInterceptor myFilterSecurityInterceptor;
+    private HrService hrService;  //实现了UserDetailsService接口
+    @Autowired
+    private MyFilterInvocationSecurityMetadataSource filterMetadataSource; //权限过滤器（当前url所需要的访问权限）
+    @Autowired
+    private MyAccessDecisionManager myAccessDecisionManager;//权限决策器
 
     /**
-     * 注册UserDetailsService 的bean
-     *
-     * @return
-     */
-    @Bean
-    UserDetailsService customUserService() {
-        return new UserServiceImpl();
-    }
-
+     * @Author: Galen
+     * @Description: 配置userDetails的数据源，密码加密格式
+     * @Date: 2019/3/28-9:24
+     * @Param: [auth]
+     * @return: void
+     **/
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(customUserService()); //user Details Service验证
+        auth.userDetailsService(hrService)
+                .passwordEncoder(new BCryptPasswordEncoder());
     }
 
+    /**
+     * @Author: Galen
+     * @Description: 配置放行的资源
+     * @Date: 2019/3/28-9:23
+     * @Param: [web]
+     * @return: void
+     **/
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/index.html", "/static/**", "/login_p", "/favicon.ico")
+                // 给 swagger 放行；不需要权限能访问的资源
+                .antMatchers("/swagger-ui.html", "/swagger-resources/**", "/images/**", "/webjars/**", "/v2/api-docs", "/configuration/ui", "/configuration/security");
+    }
+
+    /**
+     * @Author: Galen
+     * @Description: HttpSecurity包含了原数据（主要是url）
+     * 通过withObjectPostProcessor将MyFilterInvocationSecurityMetadataSource和MyAccessDecisionManager注入进来
+     * 此url先被MyFilterInvocationSecurityMetadataSource处理，然后 丢给 MyAccessDecisionManager处理
+     * 如果不匹配，返回 MyAccessDeniedHandler
+     * @Date: 2019/3/27-17:41
+     * @Param: [http]
+     * @return: void
+     **/
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //        // http.authorizeRequests()每个匹配器按照它们被声明的顺序被考虑。
-        http
-                .authorizeRequests()
-                // 给 swagger 放行；不需要权限能访问的资源
-                .antMatchers("/swagger-ui.html", "/swagger-resources/**", "/images/**", "/webjars/**", "/v2/api-docs", "/configuration/ui", "/configuration/security").permitAll()
-                // 给 静态资源放行；不需要权限能访问的资源
-                .antMatchers("/css/**", "/js/**", "/images/**", "/webjars/**", "**/favicon.ico").permitAll()
-                // ROLE_USER的权限才能访问的资源
-                .antMatchers("/user/**").hasRole("USER")
-                // 任何尚未匹配的URL只需要验证用户即可访问
-                .anyRequest().authenticated()
+        http.authorizeRequests()
+                .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+                    @Override
+                    public <O extends FilterSecurityInterceptor> O postProcess(O o) {
+                        o.setSecurityMetadataSource(filterMetadataSource);
+                        o.setAccessDecisionManager(myAccessDecisionManager);
+                        return o;
+                    }
+                })
                 .and()
-                .formLogin()
-                // 指定登录页面,授予所有用户访问登录页面
-                .loginPage("/login")
-                //设置默认登录成功跳转页面,错误回到login界面
-                .defaultSuccessUrl("/permission").failureUrl("/login?error").permitAll()
-                .and()
-                //开启cookie保存用户数据
-                .rememberMe()
-                //设置cookie有效期
-                .tokenValiditySeconds(60 * 60 * 24 * 7)
-                //设置cookie的私钥
-                .key("security")
+                .formLogin().loginPage("/login_p").loginProcessingUrl("/login")
+                .usernameParameter("username").passwordParameter("password")
+                .failureHandler(new MyAuthenticationFailureHandler())
+                .successHandler(new MyAuthenticationSuccessHandler())
+                .permitAll()
                 .and()
                 .logout()
-                .permitAll();
-
-        /**
-         * 启动登录拦截器
-         */
-        http.addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class)
-                //springsecurity4自动开启csrf(跨站请求伪造)与restful冲突
-                .csrf().disable();
+                .logoutUrl("/logout")
+                .logoutSuccessHandler(new MyLogoutSuccessHandler())
+                .permitAll()
+                .and().csrf().disable()
+                .exceptionHandling().accessDeniedHandler(new MyAccessDeniedHandler());
     }
-
 }
-

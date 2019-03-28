@@ -36,7 +36,7 @@ public class PermissionController {
 
     @ApiOperation("查看权限列表")
     @GetMapping("list")
-    public List<SysPermission> getList(String username, String password) {
+    public List<SysPermission> getList() {
         return permissionService.getList();
     }
 }
