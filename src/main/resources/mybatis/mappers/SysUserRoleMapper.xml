@@ -1,79 +1,79 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.galen.security.mapper.SysRolePermissionMapper" >
+<mapper namespace="com.galen.security.mapper.SysUserRoleMapper" >
 
-    <resultMap id="BaseResultMap" type="com.galen.security.model.SysRolePermission" >
+    <resultMap id="BaseResultMap" type="com.galen.security.model.SysUserRole" >
         <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="user_id" property="userId" jdbcType="BIGINT" />
         <result column="role_id" property="roleId" jdbcType="BIGINT" />
-        <result column="permission_id" property="permissionId" jdbcType="BIGINT" />
     </resultMap>
 
     <sql id="Base_Column_List" >
-        id, role_id, permission_id
+        id, user_id, role_id
     </sql>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
         select 
         <include refid="Base_Column_List" />
-        from sys_role_permission
+        from sys_user_role
         where id = #{id,jdbcType=BIGINT}
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-        delete from sys_role_permission
+        delete from sys_user_role
         where id = #{id,jdbcType=BIGINT}
     </delete>
 
-    <insert id="insert" parameterType="com.galen.security.model.SysRolePermission" >
-        insert into sys_role_permission (id, role_id, permission_id
+    <insert id="insert" parameterType="com.galen.security.model.SysUserRole" >
+        insert into sys_user_role (id, user_id, role_id
             )
-        values (#{id,jdbcType=BIGINT}, #{roleId,jdbcType=BIGINT}, #{permissionId,jdbcType=BIGINT}
+        values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{roleId,jdbcType=BIGINT}
             )
     </insert>
 
-    <insert id="insertSelective" parameterType="com.galen.security.model.SysRolePermission" >
-        insert into sys_role_permission
+    <insert id="insertSelective" parameterType="com.galen.security.model.SysUserRole" >
+        insert into sys_user_role
         <trim prefix="(" suffix=")" suffixOverrides="," >
             <if test="id != null" >
                 id,
             </if>
+            <if test="userId != null" >
+                user_id,
+            </if>
             <if test="roleId != null" >
                 role_id,
-            </if>
-            <if test="permissionId != null" >
-                permission_id,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides="," >
             <if test="id != null" >
                 #{id,jdbcType=BIGINT},
             </if>
+            <if test="userId != null" >
+                #{userId,jdbcType=BIGINT},
+            </if>
             <if test="roleId != null" >
                 #{roleId,jdbcType=BIGINT},
-            </if>
-            <if test="permissionId != null" >
-                #{permissionId,jdbcType=BIGINT},
             </if>
         </trim>
     </insert>
 
-    <update id="updateByPrimaryKeySelective" parameterType="com.galen.security.model.SysRolePermission" >
-        update sys_role_permission
+    <update id="updateByPrimaryKeySelective" parameterType="com.galen.security.model.SysUserRole" >
+        update sys_user_role
         <set >
+            <if test="userId != null" >
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
             <if test="roleId != null" >
                 role_id = #{roleId,jdbcType=BIGINT},
-            </if>
-            <if test="permissionId != null" >
-                permission_id = #{permissionId,jdbcType=BIGINT},
             </if>
         </set>
         where id = #{id,jdbcType=BIGINT}
     </update>
 
-    <update id="updateByPrimaryKey" parameterType="com.galen.security.model.SysRolePermission" >
-        update sys_role_permission
-        set role_id = #{roleId,jdbcType=BIGINT},
-            permission_id = #{permissionId,jdbcType=BIGINT}
+    <update id="updateByPrimaryKey" parameterType="com.galen.security.model.SysUserRole" >
+        update sys_user_role
+        set user_id = #{userId,jdbcType=BIGINT},
+            role_id = #{roleId,jdbcType=BIGINT}
         where id = #{id,jdbcType=BIGINT}
     </update>
 </mapper>

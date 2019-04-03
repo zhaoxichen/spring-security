@@ -1,7 +1,7 @@
 package com.galen.security.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.galen.security.model.Role;
+import com.galen.security.model.SysRole;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,54 +13,82 @@ import java.util.List;
 /**
  * @Author: Galen
  * @Date: 2019/3/27-15:54
- * @Description:  实现UserDetails接口，
+ * @Description: 实现UserDetails接口，
  * UserDetails接口默认有几个方法需要实现
  * UserDetails中还有一个方法叫做getAuthorities，该方法用来获取当前用户所具有的角色
-**/
+ **/
 public class SecurityUser implements UserDetails {
+    /**
+     * hrID
+     */
     private Long id;
+
+    /**
+     * 姓名
+     */
     private String name;
+
+    /**
+     * 手机号码
+     */
     private String phone;
-    private String telephone;
-    private String address;
-    private boolean enabled;
+
+
+    private Boolean enabled;
+
+    /**
+     * 用户名
+     */
     private String username;
+
+    /**
+     * 密码
+     */
     private String password;
-    private String remark;
-    private List<Role> roles;
+    /**
+     * 头像
+     */
     private String userface;
+    private List<SysRole> roles;
+
     @Override
     public boolean isEnabled() {
         return enabled;
     }
+
     @Override
     public String getUsername() {
         return username;
     }
+
     @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
+
     @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
+
     @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
+
     @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        for (Role role : roles) {
+        for (SysRole role : roles) {
             authorities.add(new SimpleGrantedAuthority(role.getName()));
         }
         return authorities;
     }
+
     @JsonIgnore
     @Override
     public String getPassword() {
@@ -75,11 +103,11 @@ public class SecurityUser implements UserDetails {
         this.userface = userface;
     }
 
-    public List<Role> getRoles() {
+    public List<SysRole> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(List<SysRole> roles) {
         this.roles = roles;
     }
 
@@ -107,22 +135,6 @@ public class SecurityUser implements UserDetails {
         this.phone = phone;
     }
 
-    public String getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
@@ -136,11 +148,4 @@ public class SecurityUser implements UserDetails {
         this.password = password;
     }
 
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
 }

@@ -1,44 +1,44 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.galen.security.mapper.SysRoleUsersMapper" >
+<mapper namespace="com.galen.security.mapper.SysPermissionRoleMapper" >
 
-    <resultMap id="BaseResultMap" type="com.galen.security.model.SysRoleUsers" >
+    <resultMap id="BaseResultMap" type="com.galen.security.model.SysPermissionRole" >
         <id column="id" property="id" jdbcType="BIGINT" />
-        <result column="user_id" property="userId" jdbcType="BIGINT" />
+        <result column="permission_id" property="permissionId" jdbcType="BIGINT" />
         <result column="role_id" property="roleId" jdbcType="BIGINT" />
     </resultMap>
 
     <sql id="Base_Column_List" >
-        id, user_id, role_id
+        id, permission_id, role_id
     </sql>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
         select 
         <include refid="Base_Column_List" />
-        from sys_role_users
+        from sys_permission_role
         where id = #{id,jdbcType=BIGINT}
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-        delete from sys_role_users
+        delete from sys_permission_role
         where id = #{id,jdbcType=BIGINT}
     </delete>
 
-    <insert id="insert" parameterType="com.galen.security.model.SysRoleUsers" >
-        insert into sys_role_users (id, user_id, role_id
+    <insert id="insert" parameterType="com.galen.security.model.SysPermissionRole" >
+        insert into sys_permission_role (id, permission_id, role_id
             )
-        values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{roleId,jdbcType=BIGINT}
+        values (#{id,jdbcType=BIGINT}, #{permissionId,jdbcType=BIGINT}, #{roleId,jdbcType=BIGINT}
             )
     </insert>
 
-    <insert id="insertSelective" parameterType="com.galen.security.model.SysRoleUsers" >
-        insert into sys_role_users
+    <insert id="insertSelective" parameterType="com.galen.security.model.SysPermissionRole" >
+        insert into sys_permission_role
         <trim prefix="(" suffix=")" suffixOverrides="," >
             <if test="id != null" >
                 id,
             </if>
-            <if test="userId != null" >
-                user_id,
+            <if test="permissionId != null" >
+                permission_id,
             </if>
             <if test="roleId != null" >
                 role_id,
@@ -48,8 +48,8 @@
             <if test="id != null" >
                 #{id,jdbcType=BIGINT},
             </if>
-            <if test="userId != null" >
-                #{userId,jdbcType=BIGINT},
+            <if test="permissionId != null" >
+                #{permissionId,jdbcType=BIGINT},
             </if>
             <if test="roleId != null" >
                 #{roleId,jdbcType=BIGINT},
@@ -57,11 +57,11 @@
         </trim>
     </insert>
 
-    <update id="updateByPrimaryKeySelective" parameterType="com.galen.security.model.SysRoleUsers" >
-        update sys_role_users
+    <update id="updateByPrimaryKeySelective" parameterType="com.galen.security.model.SysPermissionRole" >
+        update sys_permission_role
         <set >
-            <if test="userId != null" >
-                user_id = #{userId,jdbcType=BIGINT},
+            <if test="permissionId != null" >
+                permission_id = #{permissionId,jdbcType=BIGINT},
             </if>
             <if test="roleId != null" >
                 role_id = #{roleId,jdbcType=BIGINT},
@@ -70,9 +70,9 @@
         where id = #{id,jdbcType=BIGINT}
     </update>
 
-    <update id="updateByPrimaryKey" parameterType="com.galen.security.model.SysRoleUsers" >
-        update sys_role_users
-        set user_id = #{userId,jdbcType=BIGINT},
+    <update id="updateByPrimaryKey" parameterType="com.galen.security.model.SysPermissionRole" >
+        update sys_permission_role
+        set permission_id = #{permissionId,jdbcType=BIGINT},
             role_id = #{roleId,jdbcType=BIGINT}
         where id = #{id,jdbcType=BIGINT}
     </update>

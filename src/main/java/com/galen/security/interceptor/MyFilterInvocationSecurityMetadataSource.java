@@ -1,5 +1,6 @@
 package com.galen.security.interceptor;
 
+import com.galen.security.model.SysRole;
 import com.galen.security.pojo.Menu;
 import com.galen.security.model.Role;
 import com.galen.security.service.MenuService;
@@ -48,7 +49,7 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
         for (Menu menu : allMenu) {
             if (antPathMatcher.match(menu.getUrl(), requestUrl)
                     && menu.getRoles().size() > 0) {
-                List<Role> roles = menu.getRoles();
+                List<SysRole> roles = menu.getRoles();
                 int size = roles.size();
                 String[] values = new String[size];
                 for (int i = 0; i < size; i++) {

@@ -1,37 +1,32 @@
 package com.galen.security.model;
 
 /**
- * 权限表
+ * 权限表（url菜单）
  * 
  * @author wcyong
  * 
- * @date 2019-03-21
+ * @date 2019-04-03
  */
 public class SysPermission {
-    /**
-     * 主键
-     */
     private Long id;
 
-    /**
-     * 权限名称
-     */
-    private String name;
-
-    /**
-     * url前缀
-     */
     private String url;
 
-    /**
-     * 方法
-     */
-    private String method;
+    private String path;
 
-    /**
-     * 描述
-     */
-    private String description;
+    private String component;
+
+    private String name;
+
+    private String iconcls;
+
+    private Boolean keepalive;
+
+    private Boolean requireauth;
+
+    private Integer parentid;
+
+    private Boolean enabled;
 
     public Long getId() {
         return id;
@@ -39,14 +34,6 @@ public class SysPermission {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
     }
 
     public String getUrl() {
@@ -57,19 +44,67 @@ public class SysPermission {
         this.url = url == null ? null : url.trim();
     }
 
-    public String getMethod() {
-        return method;
+    public String getPath() {
+        return path;
     }
 
-    public void setMethod(String method) {
-        this.method = method == null ? null : method.trim();
+    public void setPath(String path) {
+        this.path = path == null ? null : path.trim();
     }
 
-    public String getDescription() {
-        return description;
+    public String getComponent() {
+        return component;
     }
 
-    public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
+    public void setComponent(String component) {
+        this.component = component == null ? null : component.trim();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
+    }
+
+    public String getIconcls() {
+        return iconcls;
+    }
+
+    public void setIconcls(String iconcls) {
+        this.iconcls = iconcls == null ? null : iconcls.trim();
+    }
+
+    public Boolean getKeepalive() {
+        return keepalive;
+    }
+
+    public void setKeepalive(Boolean keepalive) {
+        this.keepalive = keepalive;
+    }
+
+    public Boolean getRequireauth() {
+        return requireauth;
+    }
+
+    public void setRequireauth(Boolean requireauth) {
+        this.requireauth = requireauth;
+    }
+
+    public Integer getParentid() {
+        return parentid;
+    }
+
+    public void setParentid(Integer parentid) {
+        this.parentid = parentid;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 }

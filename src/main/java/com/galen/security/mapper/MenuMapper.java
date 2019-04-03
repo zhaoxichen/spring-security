@@ -1,6 +1,8 @@
 package com.galen.security.mapper;
 
+import com.galen.security.model.SysPermission;
 import com.galen.security.pojo.Menu;
+import com.galen.security.pojo.SecurityPermission;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,9 +21,13 @@ public interface MenuMapper {
      **/
     List<Menu> getAllMenu();
 
-    List<Menu> getMenusByHrId(Long hrId);
+    /**
+     * @Author: Galen
+     * @Description: 获取当前系统的所有权限
+     * @Date: 2019/4/3-17:43
+     * @Param: []
+     * @return: java.util.List<com.galen.security.model.SecurityPermission>
+     **/
+    List<SecurityPermission> getPermissionAll();
 
-    List<Menu> menuTree();
-
-    List<Long> getMenusByRid(Long rid);
 }

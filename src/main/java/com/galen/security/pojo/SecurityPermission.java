@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by sang on 2017/12/28.
  */
-public class Menu implements Serializable {
+public class SecurityPermission implements Serializable {
     private Long id;
     private String url;
     private String path;
@@ -19,7 +19,7 @@ public class Menu implements Serializable {
     private String iconCls;
     private Long parentId;
     private List<SysRole> roles;
-    private List<Menu> children;
+    private List<SecurityPermission> children;
     private MenuMeta meta;
 
     public MenuMeta getMeta() {
@@ -30,11 +30,11 @@ public class Menu implements Serializable {
         this.meta = meta;
     }
 
-    public List<Menu> getChildren() {
+    public List<SecurityPermission> getChildren() {
         return children;
     }
 
-    public void setChildren(List<Menu> children) {
+    public void setChildren(List<SecurityPermission> children) {
         this.children = children;
     }
 

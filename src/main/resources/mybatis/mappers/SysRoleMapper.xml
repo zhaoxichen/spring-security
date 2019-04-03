@@ -5,14 +5,15 @@
     <resultMap id="BaseResultMap" type="com.galen.security.model.SysRole" >
         <id column="id" property="id" jdbcType="BIGINT" />
         <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="nameZh" property="namezh" jdbcType="VARCHAR" />
     </resultMap>
 
     <sql id="Base_Column_List" >
-        id, name
+        id, name, nameZh
     </sql>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-        select 
+        select
         <include refid="Base_Column_List" />
         from sys_role
         where id = #{id,jdbcType=BIGINT}
@@ -24,8 +25,10 @@
     </delete>
 
     <insert id="insert" parameterType="com.galen.security.model.SysRole" >
-        insert into sys_role (id, name)
-        values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR})
+        insert into sys_role (id, name, nameZh
+            )
+        values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{namezh,jdbcType=VARCHAR}
+            )
     </insert>
 
     <insert id="insertSelective" parameterType="com.galen.security.model.SysRole" >
@@ -37,6 +40,9 @@
             <if test="name != null" >
                 name,
             </if>
+            <if test="namezh != null" >
+                nameZh,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides="," >
             <if test="id != null" >
@@ -44,6 +50,9 @@
             </if>
             <if test="name != null" >
                 #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="namezh != null" >
+                #{namezh,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
@@ -54,13 +63,17 @@
             <if test="name != null" >
                 name = #{name,jdbcType=VARCHAR},
             </if>
+            <if test="namezh != null" >
+                nameZh = #{namezh,jdbcType=VARCHAR},
+            </if>
         </set>
         where id = #{id,jdbcType=BIGINT}
     </update>
 
     <update id="updateByPrimaryKey" parameterType="com.galen.security.model.SysRole" >
         update sys_role
-        set name = #{name,jdbcType=VARCHAR}
+        set name = #{name,jdbcType=VARCHAR},
+            nameZh = #{namezh,jdbcType=VARCHAR}
         where id = #{id,jdbcType=BIGINT}
     </update>
 </mapper>

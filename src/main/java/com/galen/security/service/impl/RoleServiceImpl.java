@@ -1,9 +1,9 @@
 package com.galen.security.service.impl;
 
 import com.galen.security.mapper.SysRoleMapper;
-import com.galen.security.mapper.SysRoleUsersMapper;
+import com.galen.security.mapper.SysUserRoleMapper;
 import com.galen.security.model.SysRole;
-import com.galen.security.model.SysRoleUsers;
+import com.galen.security.model.SysUserRole;
 import com.galen.security.service.RoleService;
 import com.galen.security.utils.IdUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ public class RoleServiceImpl implements RoleService {
     @Autowired
     private SysRoleMapper sysRoleMapper;
     @Autowired
-    private SysRoleUsersMapper sysRoleUsersMapper;
+    private SysUserRoleMapper sysUserRoleMapper;
 
     @Override
     public String createRole(SysRole sysRole) {
@@ -25,11 +25,11 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public String addToRole(Long userId, Long roleId) {
-        SysRoleUsers sysRoleUsers = new SysRoleUsers();
-        sysRoleUsers.setId(IdUtil.generateNumberId());
-        sysRoleUsers.setUserId(userId);
-        sysRoleUsers.setRoleId(roleId);
-        sysRoleUsersMapper.insertSelective(sysRoleUsers);
+        SysUserRole sysUserRole = new SysUserRole();
+        sysUserRole.setId(IdUtil.generateNumberId());
+        sysUserRole.setUserId(userId);
+        sysUserRole.setRoleId(roleId);
+        sysUserRoleMapper.insertSelective(sysUserRole);
         return "success";
     }
 }

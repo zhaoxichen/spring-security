@@ -1,26 +1,17 @@
 package com.galen.security.model;
 
 /**
- * 用户-角色
+ * 用户-角色表
  * 
  * @author wcyong
  * 
- * @date 2019-03-21
+ * @date 2019-04-03
  */
-public class SysRoleUsers {
-    /**
-     * 主键
-     */
+public class SysUserRole {
     private Long id;
 
-    /**
-     * 用户id
-     */
     private Long userId;
 
-    /**
-     * 角色id
-     */
     private Long roleId;
 
     public Long getId() {

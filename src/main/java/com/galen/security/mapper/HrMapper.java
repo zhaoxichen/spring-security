@@ -13,22 +13,4 @@ import java.util.List;
 @Repository
 public interface HrMapper {
     SecurityUser loadUserByUsername(String username);
-
-    List<Role> getRolesByHrId(Long id);
-
-    int hrReg(@Param("username") String username, @Param("password") String password);
-
-    List<SecurityUser> getHrsByKeywords(@Param("keywords") String keywords);
-
-    int updateHr(SecurityUser securityUser);
-
-    int deleteRoleByHrId(Long hrId);
-
-    int addRolesForHr(@Param("hrId") Long hrId, @Param("rids") Long[] rids);
-
-    SecurityUser getHrById(Long hrId);
-
-    int deleteHr(Long hrId);
-
-    List<SecurityUser> getAllHr(@Param("currentId") Long currentId);
 }

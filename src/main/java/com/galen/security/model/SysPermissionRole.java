@@ -1,27 +1,18 @@
 package com.galen.security.model;
 
 /**
- * 角色-权限
+ * 权限-角色关联
  * 
  * @author wcyong
  * 
- * @date 2019-03-21
+ * @date 2019-04-03
  */
-public class SysRolePermission {
-    /**
-     * 主键
-     */
+public class SysPermissionRole {
     private Long id;
 
-    /**
-     * 角色id
-     */
-    private Long roleId;
-
-    /**
-     * 权限id
-     */
     private Long permissionId;
+
+    private Long roleId;
 
     public Long getId() {
         return id;
@@ -31,19 +22,19 @@ public class SysRolePermission {
         this.id = id;
     }
 
-    public Long getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
-    }
-
     public Long getPermissionId() {
         return permissionId;
     }
 
     public void setPermissionId(Long permissionId) {
         this.permissionId = permissionId;
+    }
+
+    public Long getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 }

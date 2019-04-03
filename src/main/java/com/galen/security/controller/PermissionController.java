@@ -1,7 +1,8 @@
 package com.galen.security.controller;
 
-import com.galen.security.model.SysPermission;
-import com.galen.security.service.PermissionService;
+import com.galen.security.pojo.Menu;
+import com.galen.security.pojo.RespBean;
+import com.galen.security.service.MenuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,26 +18,26 @@ import java.util.List;
 @RequestMapping("permission")
 public class PermissionController {
     @Autowired
-    private PermissionService permissionService;
+    private MenuService menuService;
 
     @ApiOperation("增加权限")
     @PostMapping("create")
-    public String createPermission(SysPermission sysPermission) {
-        return permissionService.createPermission(sysPermission);
+    public RespBean createPermission(Menu menu) {
+        return menuService.createPermission(menu);
     }
 
     @ApiOperation("添加角色拥有xxx权限")
     @PostMapping("add/to")
-    public String addToPermission(Long roleId, Long permissionId) {
-        if (null == roleId || null == permissionId) {
-            return "error";
+    public RespBean addToPermission(Long roleId, Long menuId) {
+        if (null == roleId || null == menuId) {
+            return RespBean.error("错误");
         }
-        return permissionService.addToPermission(roleId, permissionId);
+        return menuService.addToPermission(roleId, menuId);
     }
 
     @ApiOperation("查看权限列表")
     @GetMapping("list")
-    public List<SysPermission> getList() {
-        return permissionService.getList();
+    public List<Menu> getList() {
+        return menuService.getAllMenu();
     }
 }

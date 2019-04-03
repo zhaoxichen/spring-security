@@ -6,7 +6,7 @@ import com.galen.security.interceptor.MyFilterInvocationSecurityMetadataSource;
 import com.galen.security.interceptor.handler.MyAuthenticationFailureHandler;
 import com.galen.security.interceptor.handler.MyAuthenticationSuccessHandler;
 import com.galen.security.interceptor.handler.MyLogoutSuccessHandler;
-import com.galen.security.service.HrService;
+import com.galen.security.service.impl.UserSecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
@@ -28,7 +28,7 @@ import org.springframework.security.web.access.intercept.FilterSecurityIntercept
 @EnableGlobalMethodSecurity(prePostEnabled = true) //全局
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    private HrService hrService;  //实现了UserDetailsService接口
+    private UserSecurityService userSecurityService;  //实现了UserDetailsService接口
     @Autowired
     private MyFilterInvocationSecurityMetadataSource filterMetadataSource; //权限过滤器（当前url所需要的访问权限）
     @Autowired
@@ -43,7 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      **/
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(hrService)
+        auth.userDetailsService(userSecurityService)
                 .passwordEncoder(new BCryptPasswordEncoder());
     }
 
