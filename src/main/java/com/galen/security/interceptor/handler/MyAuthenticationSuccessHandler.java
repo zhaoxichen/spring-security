@@ -1,7 +1,7 @@
 package com.galen.security.interceptor.handler;
 
 import com.galen.security.pojo.RespBean;
-import com.galen.security.common.HrUtils;
+import com.galen.security.common.SecurityUserUtil;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -20,7 +20,7 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         response.setContentType("application/json;charset=utf-8");
-        RespBean respBean = RespBean.ok("登录成功!", HrUtils.getCurrentHr());
+        RespBean respBean = RespBean.ok("登录成功!", SecurityUserUtil.getCurrentHr());
         new GalenWebMvcWrite().writeToWeb(response, respBean);
         System.out.println("登录成功!");
     }

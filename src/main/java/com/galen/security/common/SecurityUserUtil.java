@@ -4,9 +4,11 @@ import com.galen.security.pojo.SecurityUser;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
- * Created by sang on 2017/12/30.
- */
-public class HrUtils {
+ * @Author: Galen
+ * @Date: 2019/4/4-9:38
+ * @Description: 获取用户
+ **/
+public class SecurityUserUtil {
     /**
      * @Author: Galen
      * @Description: 从认证中心里面获取当前用户权限信息

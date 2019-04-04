@@ -1,9 +1,8 @@
 package com.galen.security.interceptor;
 
+import com.galen.security.mapper.UserSecurityMapper;
 import com.galen.security.model.SysRole;
-import com.galen.security.pojo.Menu;
-import com.galen.security.model.Role;
-import com.galen.security.service.MenuService;
+import com.galen.security.pojo.SecurityPermission;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,7 @@ import java.util.List;
 @Component
 public class MyFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
     @Autowired
-    private MenuService menuService;
+    private UserSecurityMapper userSecurityMapper;
 
     private AntPathMatcher antPathMatcher = new AntPathMatcher();
 
@@ -45,11 +44,11 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
     public Collection<ConfigAttribute> getAttributes(Object o) {
         String requestUrl = ((FilterInvocation) o).getRequestUrl();
         //去数据库查询资源
-        List<Menu> allMenu = menuService.getAllMenu();
-        for (Menu menu : allMenu) {
-            if (antPathMatcher.match(menu.getUrl(), requestUrl)
-                    && menu.getRoles().size() > 0) {
-                List<SysRole> roles = menu.getRoles();
+        List<SecurityPermission> permissionList = userSecurityMapper.getAllPermission();
+        for (SecurityPermission permission : permissionList) {
+            if (antPathMatcher.match(permission.getUrl(), requestUrl)
+                    && permission.getRoles().size() > 0) {
+                List<SysRole> roles = permission.getRoles();
                 int size = roles.size();
                 String[] values = new String[size];
                 for (int i = 0; i < size; i++) {

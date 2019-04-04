@@ -1,24 +1,18 @@
 package com.galen.security.service;
 
-import com.galen.security.pojo.Menu;
+import com.galen.security.model.SysPermission;
 import com.galen.security.pojo.RespBean;
 
-import java.util.List;
-
-
-public interface MenuService {
-
-
-    List<Menu> getAllMenu();
+public interface PermissionService {
 
     /**
      * @Author: Galen
-     * @Description: 添加权限菜单
-     * @Date: 2019/4/2-14:25
-     * @Param: [menu]
+     * @Description: 添加一个权限
+     * @Date: 2019/4/4-9:25
+     * @Param: [sysPermission]
      * @return: com.galen.security.pojo.RespBean
      **/
-    RespBean createPermission(Menu menu);
+    RespBean createPermission(SysPermission sysPermission);
 
     /**
      * @Author: Galen

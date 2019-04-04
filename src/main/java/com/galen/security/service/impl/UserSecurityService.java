@@ -1,6 +1,6 @@
 package com.galen.security.service.impl;
 
-import com.galen.security.mapper.HrMapper;
+import com.galen.security.mapper.UserSecurityMapper;
 import com.galen.security.pojo.SecurityUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserSecurityService implements UserDetailsService {
 
     @Autowired
-    private HrMapper hrMapper;
+    private UserSecurityMapper userSecurityMapper;
 
     /**
      * @Author: Galen
@@ -36,7 +36,7 @@ public class UserSecurityService implements UserDetailsService {
          * @Author: Galen
          * @Description: 查询数据库，获取登录的用户信息
          **/
-        SecurityUser securityUser = hrMapper.loadUserByUsername(username);
+        SecurityUser securityUser = userSecurityMapper.loadUserByUsername(username);
         if (securityUser == null) {
             throw new UsernameNotFoundException("用户名不对");
         }
