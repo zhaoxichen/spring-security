@@ -1,7 +1,9 @@
 package com.galen.security.mapper;
 
 import com.galen.security.model.SysPermissionRole;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface SysPermissionRoleMapper {
     int deleteByPrimaryKey(Long id);
 

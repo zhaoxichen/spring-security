@@ -1,8 +1,9 @@
 package com.galen.security.controller;
 
 import com.galen.security.model.SysPermission;
-import com.galen.security.pojo.RespBean;
+import com.galen.security.pojo.GalenResponse;
 import com.galen.security.service.PermissionService;
+import com.galen.security.utils.ResponseUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +20,15 @@ public class PermissionController {
 
     @ApiOperation("增加权限")
     @PostMapping("create")
-    public RespBean createPermission(SysPermission sysPermission) {
+    public GalenResponse createPermission(SysPermission sysPermission) {
         return permissionService.createPermission(sysPermission);
     }
 
     @ApiOperation("添加角色拥有xxx权限")
     @PostMapping("add/to")
-    public RespBean addToPermission(Long roleId, Long menuId) {
+    public GalenResponse addToPermission(Long roleId, Long menuId) {
         if (null == roleId || null == menuId) {
-            return RespBean.error("错误");
+            return ResponseUtils.FAIL("错误");
         }
         return permissionService.addToPermission(roleId, menuId);
     }

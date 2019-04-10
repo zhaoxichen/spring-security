@@ -1,6 +1,7 @@
 package com.galen.security.controller;
 
 import com.galen.security.model.SysUser;
+import com.galen.security.pojo.GalenResponse;
 import com.galen.security.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -18,7 +19,7 @@ public class UserController {
 
     @ApiOperation("添加用户")
     @PostMapping("create")
-    public String createUser(SysUser sysUser) {
+    public GalenResponse createUser(SysUser sysUser) {
         return userService.createUser(sysUser);
     }
 }

@@ -1,4 +1,4 @@
-package com.galen.security.common;
+package com.galen.security.config;
 
 import org.springframework.core.convert.converter.Converter;
 

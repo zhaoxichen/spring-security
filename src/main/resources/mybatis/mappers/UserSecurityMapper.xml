@@ -65,7 +65,7 @@
         p.*,
         r.id as role_id,r.name as rname,r.nameZh as rnamezh
     </sql>
-    <!--获取数据库当前设置的所有权限-->
+    <!--获取数据库当前设置的所有权限,建议加入缓存或者建立视图-->
     <select id="getAllPermission" resultMap="PermissionResultMap">
         select
         <include refid="Permission_Column_List"/>

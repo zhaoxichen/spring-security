@@ -1,4 +1,4 @@
-package com.galen.security.common;
+package com.galen.security.utils;
 
 import com.galen.security.pojo.SecurityUser;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,7 +16,22 @@ public class SecurityUserUtil {
      * @Param: []
      * @return: SecurityUser
      **/
-    public static SecurityUser getCurrentHr() {
+    public static SecurityUser getCurrentUser() {
         return (SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+
+    /**
+     * @Author: Galen
+     * @Description: 获取当前使用者的编号
+     * @Date: 2019/4/8-17:11
+     * @Param: []
+     * @return: java.lang.Long
+     **/
+    public static Long getCurrentUserId() {
+        SecurityUser securityUser = getCurrentUser();
+        if (null == securityUser) {
+            return null;
+        }
+        return securityUser.getId();
     }
 }

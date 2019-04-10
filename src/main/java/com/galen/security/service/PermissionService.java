@@ -1,7 +1,7 @@
 package com.galen.security.service;
 
 import com.galen.security.model.SysPermission;
-import com.galen.security.pojo.RespBean;
+import com.galen.security.pojo.GalenResponse;
 
 public interface PermissionService {
 
@@ -10,9 +10,9 @@ public interface PermissionService {
      * @Description: 添加一个权限
      * @Date: 2019/4/4-9:25
      * @Param: [sysPermission]
-     * @return: com.galen.security.pojo.RespBean
+     * @return: com.galen.security.pojo.GalenResponse
      **/
-    RespBean createPermission(SysPermission sysPermission);
+    GalenResponse createPermission(SysPermission sysPermission);
 
     /**
      * @Author: Galen
@@ -21,5 +21,5 @@ public interface PermissionService {
      * @Param: [roleId, menuId]
      * @return: com.galen.security.pojo.RespBean
      **/
-    RespBean addToPermission(Long roleId, Long menuId);
+    GalenResponse addToPermission(Long roleId, Long menuId);
 }

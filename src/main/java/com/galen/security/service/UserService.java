@@ -1,14 +1,15 @@
 package com.galen.security.service;
 
 import com.galen.security.model.SysUser;
+import com.galen.security.pojo.GalenResponse;
 
 public interface UserService {
     /**
      * @Author: Galen
      * @Description: 添加用户
-     * @Date: 2019/3/21-17:34
+     * @Date: 2019/4/10-9:26
      * @Param: [sysUser]
-     * @return: java.lang.String
+     * @return: com.galen.security.pojo.GalenResponse
      **/
-    String createUser(SysUser sysUser);
+    GalenResponse createUser(SysUser sysUser);
 }

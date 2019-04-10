@@ -1,6 +1,8 @@
 package com.galen.security.controller;
 
+import com.galen.security.pojo.GalenResponse;
 import com.galen.security.pojo.RespBean;
+import com.galen.security.utils.ResponseUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,20 +25,16 @@ public class LoginController {
 
     @ApiOperation(value = "swagger端测试注销入口")
     @PostMapping("/logout")
-    public void logout() {
+    public GalenResponse logout() {
         System.out.println("注销成功!");
+        return ResponseUtils.SUCCESS("注销成功!");
     }
 
     @ApiOperation(value = "提示跳转到登录页面")
     @GetMapping("/login_p")
-    public RespBean loginP() {
-        return RespBean.error("尚未登录，请登录!");
+    public GalenResponse loginP() {
+        return ResponseUtils.invalid();
     }
 
-    @ApiOperation(value = "普通用户登录成功后跳转的页面")
-    @GetMapping("/employee/advanced/hello")
-    public String hello() {
-        return "hello";
-    }
 
 }

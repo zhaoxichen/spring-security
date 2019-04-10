@@ -1,6 +1,5 @@
 package com.galen.security.config;
 
-import com.galen.security.common.DateConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
