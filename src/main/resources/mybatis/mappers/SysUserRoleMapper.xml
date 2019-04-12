@@ -76,4 +76,13 @@
             role_id = #{roleId,jdbcType=BIGINT}
         where id = #{id,jdbcType=BIGINT}
     </update>
+
+    <select id="selectByUidRid" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user_role
+        where user_id = #{userId,jdbcType=BIGINT} and role_id = #{roleId,jdbcType=BIGINT}
+        limit 1
+    </select>
+
 </mapper>

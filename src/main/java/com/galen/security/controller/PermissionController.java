@@ -26,11 +26,11 @@ public class PermissionController {
 
     @ApiOperation("添加角色拥有xxx权限")
     @PostMapping("add/to")
-    public GalenResponse addToPermission(Long roleId, Long menuId) {
-        if (null == roleId || null == menuId) {
+    public GalenResponse addToPermission(Long roleId, Long permissionId) {
+        if (null == roleId || null == permissionId) {
             return ResponseUtils.FAIL("错误");
         }
-        return permissionService.addToPermission(roleId, menuId);
+        return permissionService.addToPermission(roleId, permissionId);
     }
 
 }

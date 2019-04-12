@@ -18,8 +18,8 @@ public interface PermissionService {
      * @Author: Galen
      * @Description: 给角色添加权限
      * @Date: 2019/4/2-14:26
-     * @Param: [roleId, menuId]
+     * @Param: [roleId, permissionId]
      * @return: com.galen.security.pojo.RespBean
      **/
-    GalenResponse addToPermission(Long roleId, Long menuId);
+    GalenResponse addToPermission(Long roleId, Long permissionId);
 }

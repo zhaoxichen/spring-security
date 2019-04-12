@@ -76,4 +76,13 @@
             role_id = #{roleId,jdbcType=BIGINT}
         where id = #{id,jdbcType=BIGINT}
     </update>
+
+    <select id="selectByRidPid" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_permission_role
+        where role_id = #{roleId,jdbcType=BIGINT} and permission_id = #{permissionId,jdbcType=BIGINT}
+        limit 1
+    </select>
+
 </mapper>
