@@ -32,10 +32,19 @@ public interface RoleService {
 
     /**
      * @Author: Galen
-     * @Description: 查看系统角色
+     * @Description: 查看所有系统角色
+     * @Date: 2019/4/26-16:42
+     * @Param: []
+     * @return: com.apl.model.AplResponse
+     **/
+    GalenResponse getAllSysRoleList();
+
+    /**
+     * @Author: Galen
+     * @Description: 查询系统角色, 不包含独立角色
      * @Date: 2019/4/19-15:03
      * @Param: []
-     * @return: com.apl.model.GalenResponse
+     * @return: com.apl.model.AplResponse
      **/
     GalenResponse getSysRoleList();
 

@@ -56,7 +56,13 @@ public class RoleController {
         return roleService.addToRole(userId, roleId);
     }
 
-    @ApiOperation("查看系统角色（管理员才可以查看）")
+    @ApiOperation("查看所有系统角色（管理员才可以查看）")
+    @GetMapping("list/all/get")
+    public GalenResponse getAllSysRoleList() {
+        return roleService.getAllSysRoleList();
+    }
+
+    @ApiOperation("查看系统角色，不包含独立角色（管理员才可以查看）")
     @GetMapping("list/get")
     public GalenResponse getSysRoleList(Long userId) {
         if (null == userId) {

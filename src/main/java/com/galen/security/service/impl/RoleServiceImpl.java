@@ -113,6 +113,22 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    public GalenResponse getAllSysRoleList() {
+        SecuritySysUser securitySysUser = SecurityUserUtil.getCurrentUser();
+        if (null == securitySysUser) {
+            return ResponseUtils.invalid();
+        }
+        if (0 == securitySysUser.getRoles().size()) {
+            return ResponseUtils.build(501, "没有查看系统角色的权限");
+        }
+        if (1 != securitySysUser.getRoles().size() && !securitySysUser.getRoles().get(0).getOnAlone()) {
+            return ResponseUtils.build(502, "不是独立权限的角色");
+        }
+        List<SysRole> sysRoleList = sysRoleMapper.getAllSysRoleList(securitySysUser.getRoles().get(0).getGroupType());
+        return ResponseUtils.SUCCESS(sysRoleList);
+    }
+
+    @Override
     public GalenResponse getSysRoleList() {
         SecuritySysUser securitySysUser = SecurityUserUtil.getCurrentUser();
         if (null == securitySysUser) {

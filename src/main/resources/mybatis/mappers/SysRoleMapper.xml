@@ -85,6 +85,15 @@
         limit 1
     </select>
 
+    <select id="getAllSysRoleList" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_role
+        where group_type = #{groupType}
+        order by id
+        limit 1000
+    </select>
+
     <select id="getSysRoleList" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>

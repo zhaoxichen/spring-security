@@ -30,6 +30,15 @@ public interface SysRoleMapper {
 
     /**
      * @Author: Galen
+     * @Description: 获取此管理员的所有的系统的角色
+     * @Date: 2019/4/24-9:37
+     * @Param: [getGroupType]
+     * @return: java.util.List<com.apl.tl.model.SysRole>
+     **/
+    List<SysRole> getAllSysRoleList(Integer getGroupType);
+
+    /**
+     * @Author: Galen
      * @Description: 获取此管理员的系统的角色(不包括独立角色)
      * @Date: 2019/4/24-9:37
      * @Param: [getGroupType]
