@@ -1,24 +1,23 @@
-package com.galen.security.model;
+package com.galen.security.pojo;
+
+import java.io.Serializable;
 
 /**
- * 角色表
- *
- * @author wcyong
- * @date 2019-04-12
- */
-public class SysRole {
-    private Long id;
+ * @Author: Galen
+ * @Date: 2019/4/12-15:46
+ * @Description: 适配 Security的角色
+ **/
+public class SecuritySysRole implements Serializable {
 
+    private Long id;
     /**
      * 角色英文名称
      */
     private String nameEn;
-
     /**
      * 角色中文名称
      */
     private String nameCn;
-
     /**
      * 角色类型
      */
@@ -28,11 +27,6 @@ public class SysRole {
      * 角色独立
      */
     private Boolean onAlone;
-
-    /**
-     * 角色选择（前端使用）
-     */
-    private Boolean onChoose;
 
     public Long getId() {
         return id;
@@ -48,7 +42,7 @@ public class SysRole {
     }
 
     public void setNameEn(String nameEn) {
-        this.nameEn = nameEn == null ? null : nameEn.trim();
+        this.nameEn = nameEn;
     }
 
     public String getNameCn() {
@@ -56,7 +50,7 @@ public class SysRole {
     }
 
     public void setNameCn(String nameCn) {
-        this.nameCn = nameCn == null ? null : nameCn.trim();
+        this.nameCn = nameCn;
     }
 
     public Integer getGroupType() {
@@ -73,13 +67,5 @@ public class SysRole {
 
     public void setOnAlone(Boolean onAlone) {
         this.onAlone = onAlone;
-    }
-
-    public Boolean getOnChoose() {
-        return onChoose == null ? false : onChoose;
-    }
-
-    public void setOnChoose(Boolean onChoose) {
-        this.onChoose = onChoose;
     }
 }

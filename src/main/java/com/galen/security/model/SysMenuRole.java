@@ -1,17 +1,23 @@
 package com.galen.security.model;
 
 /**
- * 用户-角色表
+ * 菜单-角色关联
  * 
  * @author wcyong
  * 
- * @date 2019-04-08
+ * @date 2019-04-18
  */
-public class SysUserRole {
+public class SysMenuRole {
     private Long id;
 
-    private Long userId;
+    /**
+     * 菜单编号
+     */
+    private Long menuId;
 
+    /**
+     * 角色编号
+     */
     private Long roleId;
 
     public Long getId() {
@@ -22,12 +28,12 @@ public class SysUserRole {
         this.id = id;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getMenuId() {
+        return menuId;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setMenuId(Long menuId) {
+        this.menuId = menuId;
     }
 
     public Long getRoleId() {

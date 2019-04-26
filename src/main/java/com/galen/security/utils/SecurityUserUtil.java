@@ -1,6 +1,6 @@
 package com.galen.security.utils;
 
-import com.galen.security.pojo.SecurityUser;
+import com.galen.security.pojo.SecuritySysUser;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
@@ -16,8 +16,8 @@ public class SecurityUserUtil {
      * @Param: []
      * @return: SecurityUser
      **/
-    public static SecurityUser getCurrentUser() {
-        return (SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public static SecuritySysUser getCurrentUser() {
+        return (SecuritySysUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
     /**
@@ -28,10 +28,10 @@ public class SecurityUserUtil {
      * @return: java.lang.Long
      **/
     public static Long getCurrentUserId() {
-        SecurityUser securityUser = getCurrentUser();
-        if (null == securityUser) {
+        SecuritySysUser securitySysUser = getCurrentUser();
+        if (null == securitySysUser) {
             return null;
         }
-        return securityUser.getId();
+        return securitySysUser.getId();
     }
 }

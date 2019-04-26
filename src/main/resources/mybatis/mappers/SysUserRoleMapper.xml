@@ -85,4 +85,17 @@
         limit 1
     </select>
 
+    <delete id="deleteByRoleId" parameterType="java.lang.Long" >
+        delete from sys_user_role
+        where role_id = #{roleId,jdbcType=BIGINT}
+    </delete>
+
+    <select id="selectUserByRid" resultType="java.lang.Long" parameterType="java.lang.Long" >
+        select
+        u.id
+        from sys_customer_user u
+        left join sys_user_role u_r on u.id = u_r.user_id
+        where u_r.role_id = #{roleId,jdbcType=BIGINT}
+    </select>
+
 </mapper>

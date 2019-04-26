@@ -1,79 +1,122 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.galen.security.mapper.SysRoleMapper" >
+<mapper namespace="com.galen.security.mapper.SysRoleMapper">
 
-    <resultMap id="BaseResultMap" type="com.galen.security.model.SysRole" >
-        <id column="id" property="id" jdbcType="BIGINT" />
-        <result column="name" property="name" jdbcType="VARCHAR" />
-        <result column="nameZh" property="namezh" jdbcType="VARCHAR" />
+    <resultMap id="BaseResultMap" type="com.galen.security.model.SysRole">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="nameZh" property="namezh" jdbcType="VARCHAR"/>
     </resultMap>
 
-    <sql id="Base_Column_List" >
+    <sql id="Base_Column_List">
         id, name, nameZh
     </sql>
 
-    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
-        <include refid="Base_Column_List" />
+        <include refid="Base_Column_List"/>
         from sys_role
         where id = #{id,jdbcType=BIGINT}
     </select>
 
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete from sys_role
         where id = #{id,jdbcType=BIGINT}
     </delete>
 
-    <insert id="insert" parameterType="com.galen.security.model.SysRole" >
+    <insert id="insert" parameterType="com.galen.security.model.SysRole">
         insert into sys_role (id, name, nameZh
             )
         values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{namezh,jdbcType=VARCHAR}
             )
     </insert>
 
-    <insert id="insertSelective" parameterType="com.galen.security.model.SysRole" >
+    <insert id="insertSelective" parameterType="com.galen.security.model.SysRole">
         insert into sys_role
-        <trim prefix="(" suffix=")" suffixOverrides="," >
-            <if test="id != null" >
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
                 id,
             </if>
-            <if test="name != null" >
+            <if test="name != null">
                 name,
             </if>
-            <if test="namezh != null" >
+            <if test="namezh != null">
                 nameZh,
             </if>
         </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides="," >
-            <if test="id != null" >
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
                 #{id,jdbcType=BIGINT},
             </if>
-            <if test="name != null" >
+            <if test="name != null">
                 #{name,jdbcType=VARCHAR},
             </if>
-            <if test="namezh != null" >
+            <if test="namezh != null">
                 #{namezh,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
 
-    <update id="updateByPrimaryKeySelective" parameterType="com.galen.security.model.SysRole" >
+    <update id="updateByPrimaryKeySelective" parameterType="com.galen.security.model.SysRole">
         update sys_role
-        <set >
-            <if test="name != null" >
+        <set>
+            <if test="name != null">
                 name = #{name,jdbcType=VARCHAR},
             </if>
-            <if test="namezh != null" >
+            <if test="namezh != null">
                 nameZh = #{namezh,jdbcType=VARCHAR},
             </if>
         </set>
         where id = #{id,jdbcType=BIGINT}
     </update>
 
-    <update id="updateByPrimaryKey" parameterType="com.galen.security.model.SysRole" >
+    <update id="updateByPrimaryKey" parameterType="com.galen.security.model.SysRole">
         update sys_role
         set name = #{name,jdbcType=VARCHAR},
             nameZh = #{namezh,jdbcType=VARCHAR}
         where id = #{id,jdbcType=BIGINT}
     </update>
+
+    <select id="selectByRoleName" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_role
+        where name_en = #{nameEn,jdbcType=VARCHAR}
+        limit 1
+    </select>
+
+    <select id="getSysRoleList" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_role
+        where group_type = #{groupType}
+        and on_alone = 0
+        order by id
+        limit 1000
+    </select>
+
+    <select id="getUserSysRoleList" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT
+        r.id, r.name_en, r.name_cn,r.group_type,r.on_alone
+        FROM
+        sys_role r
+        LEFT JOIN sys_user_role u_r ON r.id = u_r.role_id
+        WHERE
+        u_r.user_id = #{userId}
+        ORDER BY
+        r.id
+    </select>
+
+    <select id="getUserSysRoleIdList" resultType="java.lang.Long" parameterType="java.lang.Long">
+        SELECT
+            r.id
+        FROM
+            sys_role r
+            LEFT JOIN sys_user_role u_r ON r.id = u_r.role_id
+        WHERE
+            u_r.user_id = #{userId}
+        ORDER BY
+            r.id
+    </select>
+
 </mapper>

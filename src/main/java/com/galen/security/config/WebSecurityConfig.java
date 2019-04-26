@@ -1,8 +1,8 @@
 package com.galen.security.config;
 
 import com.galen.security.interceptor.MyAccessDecisionManager;
-import com.galen.security.interceptor.handler.MyAccessDeniedHandler;
 import com.galen.security.interceptor.MyFilterInvocationSecurityMetadataSource;
+import com.galen.security.interceptor.handler.MyAccessDeniedHandler;
 import com.galen.security.interceptor.handler.MyAuthenticationFailureHandler;
 import com.galen.security.interceptor.handler.MyAuthenticationSuccessHandler;
 import com.galen.security.interceptor.handler.MyLogoutSuccessHandler;
@@ -17,20 +17,20 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
+import org.springframework.web.cors.CorsUtils;
 
 /**
  * @Author: Galen
  * @Date: 2019/3/27-14:43
  * @Description: spring-security权限管理的核心配置
- * 自定义一个springSecurity安全框架的配置类 继承WebSecurityConfigurerAdapter，重写其中的方法configure
  **/
 @Configuration
-@EnableGlobalMethodSecurity(prePostEnabled = true) //全局
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    private UserSecurityService userSecurityService;  //实现了UserDetailsService接口
+    private UserSecurityService userSecurityService;
     @Autowired
-    private MyFilterInvocationSecurityMetadataSource filterMetadataSource; //权限过滤器（当前url所需要的访问权限）
+    private MyFilterInvocationSecurityMetadataSource filterMetadataSource; //权限过滤器
     @Autowired
     private MyAccessDecisionManager myAccessDecisionManager;//权限决策器
 
@@ -44,7 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userSecurityService)
-                .passwordEncoder(new BCryptPasswordEncoder());
+                .passwordEncoder(new BCryptPasswordEncoder());// 实现自定义登录校验
     }
 
     /**
@@ -56,24 +56,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      **/
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/index.html", "/static/**", "/login_p", "/favicon.ico")
+        web.ignoring().antMatchers( "/index.html", "/static/**", "/login_p", "/favicon.ico")
                 // 给 swagger 放行；不需要权限能访问的资源
                 .antMatchers("/swagger-ui.html", "/swagger-resources/**", "/images/**", "/webjars/**", "/v2/api-docs", "/configuration/ui", "/configuration/security");
     }
 
     /**
      * @Author: Galen
-     * @Description: HttpSecurity包含了原数据（主要是url）
-     * 通过withObjectPostProcessor将MyFilterInvocationSecurityMetadataSource和MyAccessDecisionManager注入进来
-     * 此url先被MyFilterInvocationSecurityMetadataSource处理，然后 丢给 MyAccessDecisionManager处理
-     * 如果不匹配，返回 MyAccessDeniedHandler
-     * @Date: 2019/3/27-17:41
+     * @Description: 拦截配置
+     * @Date: 2019/4/4-10:44
      * @Param: [http]
      * @return: void
      **/
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                // 使其支持跨域
+                .requestMatchers(CorsUtils :: isPreFlightRequest).permitAll()
+                // 其他路径需要授权访问
+                .anyRequest().authenticated()
                 .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
                     @Override
                     public <O extends FilterSecurityInterceptor> O postProcess(O o) {
@@ -89,11 +90,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .successHandler(new MyAuthenticationSuccessHandler())
                 .permitAll()
                 .and()
+                // 退出登录后的默认路径
                 .logout()
                 .logoutUrl("/logout")
                 .logoutSuccessHandler(new MyLogoutSuccessHandler())
                 .permitAll()
-                .and().csrf().disable()
+                .and()
+                .csrf().disable() //关闭csrf
                 .exceptionHandling().accessDeniedHandler(new MyAccessDeniedHandler());
     }
 }

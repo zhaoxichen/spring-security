@@ -1,7 +1,6 @@
 package com.galen.security.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.galen.security.model.SysRole;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,27 +13,28 @@ import java.util.List;
  * @Author: Galen
  * @Date: 2019/3/27-15:54
  * @Description: 实现UserDetails接口，
- * UserDetails接口默认有几个方法需要实现
- * UserDetails中还有一个方法叫做getAuthorities，该方法用来获取当前用户所具有的角色
+ * 适配 Security的用户
  **/
-public class SecurityUser implements UserDetails {
+public class SecuritySysUser implements UserDetails {
     /**
-     * hrID
+     * 用户ID
      */
     private Long id;
 
-    /**
-     * 姓名
-     */
-    private String name;
-
-    /**
-     * 手机号码
-     */
-    private String phone;
-
 
     private Boolean enabled;
+
+    private Boolean basicInfo;
+
+    private String jsessionId;
+
+    private Integer userType;
+
+    private Integer crmId;
+
+    private String nicknameCn;
+
+    private String nicknameEn;
 
     /**
      * 用户名
@@ -49,7 +49,8 @@ public class SecurityUser implements UserDetails {
      * 头像
      */
     private String userface;
-    private List<SysRole> roles;
+
+    private List<SecuritySysRole> roles;
 
     @Override
     public boolean isEnabled() {
@@ -83,7 +84,12 @@ public class SecurityUser implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        for (SysRole role : roles) {
+        for (SecuritySysRole role : roles) {
+            System.out.println(role.getId());
+            System.out.println(role.getNameEn());
+            if (null == role.getNameCn()) {
+                continue;
+            }
             authorities.add(new SimpleGrantedAuthority(role.getNameEn()));
         }
         return authorities;
@@ -103,11 +109,11 @@ public class SecurityUser implements UserDetails {
         this.userface = userface;
     }
 
-    public List<SysRole> getRoles() {
+    public List<SecuritySysRole> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<SysRole> roles) {
+    public void setRoles(List<SecuritySysRole> roles) {
         this.roles = roles;
     }
 
@@ -119,20 +125,12 @@ public class SecurityUser implements UserDetails {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Boolean getBasicInfo() {
+        return basicInfo;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setBasicInfo(Boolean basicInfo) {
+        this.basicInfo = basicInfo;
     }
 
     public void setEnabled(boolean enabled) {
@@ -148,4 +146,43 @@ public class SecurityUser implements UserDetails {
         this.password = password;
     }
 
+    public String getJsessionId() {
+        return jsessionId;
+    }
+
+    public void setJsessionId(String jsessionId) {
+        this.jsessionId = jsessionId;
+    }
+
+    public Integer getUserType() {
+        return userType;
+    }
+
+    public void setUserType(Integer userType) {
+        this.userType = userType;
+    }
+
+    public Integer getCrmId() {
+        return crmId;
+    }
+
+    public void setCrmId(Integer crmId) {
+        this.crmId = crmId;
+    }
+
+    public String getNicknameCn() {
+        return this.nicknameCn;
+    }
+
+    public void  setNickname(String nicknameCn) {
+        this.nicknameCn = nicknameCn;
+    }
+
+    public String getNicknameEn() {
+        return nicknameEn;
+    }
+
+    public void setNicknameEn(String nicknameEn) {
+        this.nicknameEn = nicknameEn;
+    }
 }

@@ -3,6 +3,7 @@ package com.galen.security.interceptor;
 import com.galen.security.mapper.UserSecurityMapper;
 import com.galen.security.model.SysRole;
 import com.galen.security.pojo.SecurityPermission;
+import com.galen.security.pojo.SecuritySysPermission;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,15 +45,15 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
     public Collection<ConfigAttribute> getAttributes(Object o) {
         String requestUrl = ((FilterInvocation) o).getRequestUrl();
         //去数据库查询资源
-        List<SecurityPermission> permissionList = userSecurityMapper.getAllPermission();
-        for (SecurityPermission permission : permissionList) {
+        List<SecuritySysPermission> permissionList = userSecurityMapper.getAllPermission();
+        for (SecuritySysPermission permission : permissionList) {
             if (antPathMatcher.match(permission.getUrl(), requestUrl)
                     && permission.getRoles().size() > 0) {
                 List<SysRole> roles = permission.getRoles();
                 int size = roles.size();
                 String[] values = new String[size];
                 for (int i = 0; i < size; i++) {
-                    values[i] = roles.get(i).getName();
+                    values[i] = roles.get(i).getNameEn();
                 }
                 log.info("当前访问路径是{},这个url所需要的访问权限是{}", requestUrl, values);
                 return SecurityConfig.createList(values);

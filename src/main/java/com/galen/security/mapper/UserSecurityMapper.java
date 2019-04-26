@@ -1,7 +1,7 @@
 package com.galen.security.mapper;
 
-import com.galen.security.pojo.SecurityPermission;
-import com.galen.security.pojo.SecurityUser;
+import com.galen.security.pojo.*;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,18 +14,37 @@ public interface UserSecurityMapper {
     /**
      * @Author: Galen
      * @Description: 查询数据库用户
-     * @Date: 2019/4/4-9:09
+     * @Date: 2019/4/18-19:29
      * @Param: [username]
-     * @return: com.galen.security.pojo.SecurityUser
+     * @return: com.apl.tl.pojo.SecuritySysUser
      **/
-    SecurityUser loadUserByUsername(String username);
+    SecuritySysUser loadUserByUsername(String username);
 
     /**
      * @Author: Galen
-     * @Description: 获取所有的菜单
-     * @Date: 2019/3/27-14:34
+     * @Description: 获取所有的权限菜单
+     * @Date: 2019/4/26-15:14
      * @Param: []
-     * @return: java.util.List<SecurityPermission>
+     * @return: java.util.List<com.galen.security.pojo.SecuritySysPermission>
      **/
-    List<SecurityPermission> getAllPermission();
+    List<SecuritySysPermission> getAllPermission();
+
+
+    /**
+     * @Author: Galen
+     * @Description: 获取此用户的权限菜单
+     * @Date: 2019/4/18-16:20
+     * @Param: [userId]
+     * @return: java.util.List<com.apl.pgs.mini.pojo.SecuritySysMenu>
+     **/
+    List<SecuritySysMenu> getMenuByUid(Long userId);
+
+    /**
+     * @Author: Galen
+     * @Description: 获取当前用户的当前菜单页面的按钮
+     * @Date: 2019/4/19-11:43
+     * @Param: [userId, menuId]
+     * @return: java.util.List<java.lang.String>
+     **/
+    List<String> getButtonElementIdByUid(@Param("userId") Long userId, @Param("menuId") Long menuId);
 }

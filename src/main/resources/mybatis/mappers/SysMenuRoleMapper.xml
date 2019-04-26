@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.galen.security.mapper.SysMenuRoleMapper">
+
+    <resultMap id="BaseResultMap" type="com.galen.security.model.SysMenuRole">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="menu_id" property="menuId" jdbcType="BIGINT"/>
+        <result column="role_id" property="roleId" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, menu_id, role_id
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_menu_role
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from sys_menu_role
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <insert id="insert" parameterType="com.galen.security.model.SysMenuRole">
+        insert into sys_menu_role (id, menu_id, role_id
+            )
+        values (#{id,jdbcType=BIGINT}, #{menuId,jdbcType=BIGINT}, #{roleId,jdbcType=BIGINT}
+            )
+    </insert>
+
+    <insert id="insertList" parameterType="java.util.List">
+        insert into sys_menu_role (id, menu_id, role_id)
+        values
+        <foreach collection="sysMenuRoleList" item="menuRole" index="index" separator=",">
+            (#{menuRole.id,jdbcType=BIGINT}, #{menuRole.menuId,jdbcType=BIGINT}, #{menuRole.roleId,jdbcType=BIGINT})
+        </foreach>
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.galen.security.model.SysMenuRole">
+        insert into sys_menu_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="menuId != null">
+                menu_id,
+            </if>
+            <if test="roleId != null">
+                role_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="menuId != null">
+                #{menuId,jdbcType=BIGINT},
+            </if>
+            <if test="roleId != null">
+                #{roleId,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.galen.security.model.SysMenuRole">
+        update sys_menu_role
+        <set>
+            <if test="menuId != null">
+                menu_id = #{menuId,jdbcType=BIGINT},
+            </if>
+            <if test="roleId != null">
+                role_id = #{roleId,jdbcType=BIGINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.galen.security.model.SysMenuRole">
+        update sys_menu_role
+        set menu_id = #{menuId,jdbcType=BIGINT},
+            role_id = #{roleId,jdbcType=BIGINT}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <select id="selectByMidPid" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_menu_role
+        where role_id = #{roleId,jdbcType=BIGINT} and menu_id = #{menuId,jdbcType=BIGINT}
+        limit 1
+    </select>
+
+    <delete id="deleteByMenuId" parameterType="java.lang.Long">
+        delete from sys_menu_role
+        where menu_id = #{menuId,jdbcType=BIGINT}
+    </delete>
+
+    <delete id="deleteByParentId" parameterType="java.lang.Long">
+        delete from sys_menu_role mr
+        where mr.role_id = #{roleId,jdbcType=BIGINT}
+        and mr.menu_id in
+        (select
+          m.id
+         from sys_menu m
+         where m.parent_id = #{menuId,jdbcType=BIGINT})
+    </delete>
+
+    <delete id="deleteByRoleId" parameterType="java.lang.Long">
+        delete from sys_menu_role
+        where role_id = #{roleId,jdbcType=BIGINT}
+    </delete>
+
+</mapper>
