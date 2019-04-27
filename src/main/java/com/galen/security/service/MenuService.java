@@ -53,6 +53,15 @@ public interface MenuService {
 
     /**
      * @Author: Galen
+     * @Description: 查看系统权限资源管理(原始数据)
+     * @Date: 2019/4/27-10:58
+     * @Param: [pageBegin, pageSize]
+     * @return: com.apl.model.AplResponse
+     **/
+    GalenResponse getAllSysMenuList(Integer pageBegin, Integer pageSize);
+
+    /**
+     * @Author: Galen
      * @Description: 获取系统权限列表
      * @Date: 2019/4/19-14:53
      * @Param: []

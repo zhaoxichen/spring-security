@@ -14,6 +14,8 @@ import com.galen.security.service.MenuService;
 import com.galen.security.utils.IdUtil;
 import com.galen.security.utils.ResponseUtils;
 import com.galen.security.utils.SecurityUserUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -138,6 +140,18 @@ public class MenuServiceImpl implements MenuService {
         }
         List<String> buttonIdList = userSecurityMapper.getButtonElementIdByUid(userId, menuId);
         return ResponseUtils.SUCCESS(buttonIdList);
+    }
+
+    @Override
+    public GalenResponse getAllSysMenuList(Integer pageBegin, Integer pageSize) {
+        Long userId = SecurityUserUtil.getCurrentUserId();
+        if (null == userId) {
+            return ResponseUtils.invalid();
+        }
+        PageHelper.startPage(pageBegin, pageSize);
+        sourceList = sysMenuMapper.getSysMenuList(userId);
+        PageInfo pageInfo = new PageInfo(sourceList);
+        return ResponseUtils.SUCCESS(sourceList, pageInfo.getTotal());
     }
 
     @Override

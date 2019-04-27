@@ -6,12 +6,11 @@ import com.galen.security.utils.ResponseUtils;
 import com.galen.security.utils.SecurityUserUtil;
 import com.github.pagehelper.util.StringUtil;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Api(value = "权限菜单controller", tags = {"权限菜单操作接口"})
 @RestController
@@ -48,7 +47,7 @@ public class MenuController {
     @ApiOperation("增加权限菜单（把资源加入权限管理）")
     @PostMapping("create")
     public GalenResponse createSysMenu(Integer menuType, Long parentId, String title, String titleEn, String iconPic, String path, String component,
-                                     String elementId, String requestUrl, Integer sortOrder) {
+                                       String elementId, String requestUrl, Integer sortOrder) {
         if (null == menuType) {
             return ResponseUtils.FAIL("请传入菜单类型：1：左侧主菜单；2：页面中的按钮；3：页面中标签");
         }
@@ -82,7 +81,7 @@ public class MenuController {
     @ApiOperation("更新权限菜单")
     @PostMapping("modify")
     public GalenResponse modifySysMenu(Long id, String title, String titleEn, String iconPic, String path, String component,
-                                     String elementId, String requestUrl, Integer sortOrder) {
+                                       String elementId, String requestUrl, Integer sortOrder) {
         if (null == id) {
             return ResponseUtils.FAIL("请传入权限菜单id");
         }
@@ -96,6 +95,15 @@ public class MenuController {
             return ResponseUtils.build(401, "错误");
         }
         return menuService.addToSysMenu(roleId, menuId);
+    }
+
+    @ApiOperation(value = "查看系统权限资源管理", notes = "权限资源管理页面查看权限资源原始数据")
+    @ApiImplicitParams({@ApiImplicitParam(name = "pageBegin", value = "取第pageBegin页", dataType = "integer", paramType = "query", required = true),
+            @ApiImplicitParam(name = "pageSize", value = "每页的数量", dataType = "integer", paramType = "query", required = true)})
+    @GetMapping("list/all/get")
+    public GalenResponse getAllSysMenuList(@RequestParam(defaultValue = "1") Integer pageBegin,
+                                           @RequestParam(defaultValue = "10") Integer pageSize) {
+        return menuService.getAllSysMenuList(pageBegin, pageSize);
     }
 
     @ApiOperation("查看系统权限资源")
@@ -116,7 +124,9 @@ public class MenuController {
         return menuService.getRoleSysMenuList(roleId);
     }
 
-    @ApiOperation("移除xx角色的一个权限资源")
+    @ApiOperation(value = "移除xx角色的一个权限资源", notes = "业务上，权限取消勾选")
+    @ApiImplicitParams({@ApiImplicitParam(name = "roleId", value = "角色编号", dataType = "long", paramType = "query", required = true),
+            @ApiImplicitParam(name = "menuId", value = "菜单编号", dataType = "long", paramType = "query", required = true)})
     @PostMapping("/role/remove")
     public GalenResponse removeRoleSysMenu(Long roleId, Long menuId) {
         if (null == roleId || null == menuId) {

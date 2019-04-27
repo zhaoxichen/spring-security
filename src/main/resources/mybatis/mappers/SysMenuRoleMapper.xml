@@ -99,7 +99,7 @@
     </delete>
 
     <delete id="deleteByParentId" parameterType="java.lang.Long">
-        delete from sys_menu_role mr
+        delete mr from sys_menu_role mr
         where mr.role_id = #{roleId,jdbcType=BIGINT}
         and mr.menu_id in
         (select
